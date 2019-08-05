@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Travel Mantics</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do</string>
+    <string name="search_for_a_location">Search for a location...</string>
+    <string name="place_a_location">Place a Location</string>
+    <string name="title_activity_insert_location">InsertLocation</string>
+    <string name="location_title">Location title</string>
+    <string name="price">Price</string>
+    <string name="location_description">Location description</string>
+    <string name="save">Save</string>
+    <string name="new_travel_deal">PLACE A NEW TRAVEL DEAL</string>
+    <string name="delete">Delete</string>
+    <string name="logout">Logout</string>
+</resources>
