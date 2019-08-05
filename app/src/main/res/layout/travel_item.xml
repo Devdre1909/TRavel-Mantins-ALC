@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageDeal"
+            android:id="@+id/imgText"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:contentDescription="image_name"

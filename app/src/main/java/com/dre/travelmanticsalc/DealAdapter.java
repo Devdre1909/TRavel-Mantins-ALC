@@ -94,14 +94,14 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
         TextView tvTitle;
         TextView tvPrice;
         TextView tvDesc;
-        ImageView imageDeal;
+        ImageView ivDeal;
 
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.titleText);
             tvPrice = itemView.findViewById(R.id.priceText);
             tvDesc = itemView.findViewById(R.id.descText);
-            imageDeal = itemView.findViewById(R.id.imageDeal);
+            ivDeal = itemView.findViewById(R.id.imgText);
             itemView.setOnClickListener(this);
         }
 
@@ -112,7 +112,6 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
             showImage(deal.getImageUrl());
         }
 
-
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
@@ -122,13 +121,14 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
             intent.putExtra("Deal", selectedDeal);
             view.getContext().startActivity(intent);
         }
+
         private void showImage(String url){
             if(url != null && !url.isEmpty()){
-                Log.v("Url", url);
                 Picasso.get()
                         .load(url)
+                        .resize(160, 160)
                         .centerCrop()
-                        .into(imageDeal);
+                        .into(ivDeal);
             }
         }
     }
