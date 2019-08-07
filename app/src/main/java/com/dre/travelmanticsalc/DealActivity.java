@@ -5,15 +5,13 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.firebase.ui.auth.data.model.Resource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
@@ -25,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,7 +55,7 @@ public class DealActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.insert_menu, menu);
 
-        /*if (FirebaseUtils.isAdmin){
+        if (FirebaseUtils.isAdmin){
             menu.findItem(R.id.SaveMenuOption).setVisible(true);
             menu.findItem(R.id.deleteMenuOption).setVisible(true);
             enableEditText(true);
@@ -66,8 +63,7 @@ public class DealActivity extends AppCompatActivity {
             menu.findItem(R.id.SaveMenuOption).setVisible(false);
             menu.findItem(R.id.deleteMenuOption).setVisible(false);
             enableEditText(false);
-        }*/
-
+        }
         return true;
     }
 
@@ -96,14 +92,27 @@ public class DealActivity extends AppCompatActivity {
     }
 
     private  void deleteDeal(){
-        if(deal == null) Toast.makeText(this, "Please sav before deleting!", Toast.LENGTH_SHORT).show();
+        if(deal == null) Toast.makeText(this, "Please save before deleting!", Toast.LENGTH_SHORT).show();
         else mDatabaseReference.child(deal.getId()).removeValue();
+        if (deal.getImageName() != null && !deal.getImageName().isEmpty()) {
+            StorageReference picRef = FirebaseUtils.mStorage.getReference().child(deal.getImageName());
+            picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DealActivity.this, "Image deleted!", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DealActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();     
+                }
+            });
+        }
     }
 
     private void backToList(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-
     }
 
     private void clear(){
@@ -116,9 +125,10 @@ public class DealActivity extends AppCompatActivity {
     private void showImage(String url){
         if(url != null && !url.isEmpty()){
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+            int height = Resources.getSystem().getDisplayMetrics().heightPixels;
             Picasso.get()
                     .load(url)
-                    .resize(width, width*2/3)
+                    .resize(width, height)
                     .centerCrop()
                     .into(imageView);
         }
@@ -137,7 +147,6 @@ public class DealActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
-
                     // Continue with the task to get the download URL
                     return ref.getDownloadUrl();
                 }
@@ -147,10 +156,13 @@ public class DealActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         String downloadURL = downloadUri.toString();
+                        String pictureName = downloadUri.getPath();
                         deal.setImageUrl(downloadURL);
+                        deal.setImageName(pictureName);
                         showImage(downloadURL);
                     } else {
-
+                        Toast.makeText(DealActivity.this, "Unable to upload image", Toast.LENGTH_SHORT).show();
+                        backToList();
                     }
                 }
             });
@@ -160,15 +172,20 @@ public class DealActivity extends AppCompatActivity {
 
     private void enableEditText(boolean isEnabled){
         title.setEnabled(isEnabled);
+        title.clearFocus();
         desc.setEnabled(isEnabled);
+        desc.clearFocus();
         price.setEnabled(isEnabled);
+        price.clearFocus();
+        if(isEnabled) btnUploadImage.setVisibility(View.VISIBLE);
+        else btnUploadImage.setVisibility(View.GONE);
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_location);
+        setContentView(R.layout.activity_insert_deals);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -204,8 +221,6 @@ public class DealActivity extends AppCompatActivity {
         FirebaseUtils.openFBReference("traveldeals", this);
         mFirebaseDatabase = FirebaseUtils.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtils.mDatabaseReference;
-
-
     }
 
 }

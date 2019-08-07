@@ -21,6 +21,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_insert_location" />
+    <include layout="@layout/content_insert_deals" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -40,15 +40,16 @@
             <Button
                 android:id="@+id/place_btn"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.8"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
                 android:text="@string/new_travel_deal"
                 android:textColor="@color/white"
                 android:elevation="10dp"
-                android:textSize="17sp"
+                android:textSize="13sp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:visibility="visible"
                 />
 
             <Button
@@ -60,7 +61,7 @@
                 android:text="@string/logout"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:visibility="visible" />
+                 />
 
         </LinearLayout>
 </LinearLayout>

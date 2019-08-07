@@ -21,12 +21,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FirebaseUtils {
+
+    // Declaration of FirebaseDatabase
     public static FirebaseDatabase mFirebaseDatabase;
     public static DatabaseReference mDatabaseReference;
+
+    // Declaration of FirebaseAuth
     public static FirebaseAuth mFirebaseAuth;
+    public static FirebaseAuth.AuthStateListener mAuthListener;
+
+    // Declaration of FirebaseStorage
     public static FirebaseStorage mStorage;
     public static StorageReference mStorageRef;
-    public static FirebaseAuth.AuthStateListener mAuthListener;
+
+
     public static  FirebaseUtils firebaseUtils;
     private static final int RC_SIGN_IN = 123;
     private static Activity caller;
@@ -41,6 +49,8 @@ public class FirebaseUtils {
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             caller = callerActivity;
             mFirebaseAuth = FirebaseAuth.getInstance();
+
+            //Setting up Firebase Authentication
             mAuthListener = new FirebaseAuth.AuthStateListener() {
                 @Override
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -106,6 +116,7 @@ public class FirebaseUtils {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
+                        .setLogo(R.drawable.ic_travel_mantics_logo_v2)
                         .build(),
                 RC_SIGN_IN);
     }

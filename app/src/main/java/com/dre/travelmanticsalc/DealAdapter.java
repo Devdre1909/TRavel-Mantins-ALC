@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -66,8 +67,6 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
 
             }
         });
-
-
     }
 
     @Override
@@ -106,8 +105,13 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
         }
 
         public void bind(TravelDeal deal){
+            Double dealPrice = Double.parseDouble(deal.getPrice());
+            String pattern = "#,###.##";
+            DecimalFormat format = new DecimalFormat(pattern);
+            String updatePrice = format.format(dealPrice);
+            updatePrice = "#"+updatePrice;
             tvTitle.setText(deal.getTitle());
-            tvPrice.setText(deal.getPrice());
+            tvPrice.setText(updatePrice);
             tvDesc.setText(deal.getDescription());
             showImage(deal.getImageUrl());
         }
@@ -132,4 +136,5 @@ public class DealAdapter  extends RecyclerView.Adapter<DealAdapter.DealViewHolde
             }
         }
     }
+
 }

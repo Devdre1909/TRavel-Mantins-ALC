@@ -53,6 +53,7 @@
             android:layout_below="@+id/titleText"
             android:text="@string/dummy_text"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/black_alpha"
             />

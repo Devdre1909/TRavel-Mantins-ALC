@@ -10,5 +10,7 @@
     <string name="save">Save</string>
     <string name="new_travel_deal">PLACE A NEW TRAVEL DEAL</string>
     <string name="delete">Delete</string>
-    <string name="logout">Logout</string>
+    <string name="logout">LOGOUT</string>
+    <string name="image_deal">Image deal</string>
+    <string name="upload_image">Upload Image</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -34,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*if(!FirebaseUtils.isAdmin){
-            insertBtn.setVisibility(View.GONE);
-        }*/
-
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUtils.detachListener();
             }
         });
+
 
     }
 
@@ -71,7 +69,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(dealsLayoutManager);
+
+        // Check if user is admim
+        if(!FirebaseUtils.isAdmin) insertBtn.setVisibility(View.GONE);
+        else insertBtn.setVisibility(View.VISIBLE);
         FirebaseUtils.attachListener();
     }
+
+
 
 }
