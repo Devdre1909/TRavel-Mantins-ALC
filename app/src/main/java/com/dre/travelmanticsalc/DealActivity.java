@@ -125,10 +125,9 @@ public class DealActivity extends AppCompatActivity {
     private void showImage(String url){
         if(url != null && !url.isEmpty()){
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-            int height = Resources.getSystem().getDisplayMetrics().heightPixels;
             Picasso.get()
                     .load(url)
-                    .resize(width, height)
+                    .resize(width, width*2/3)
                     .centerCrop()
                     .into(imageView);
         }
